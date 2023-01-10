@@ -3,6 +3,8 @@ import 'plyr-react/plyr.css'
 
 export default function Player({ hash }) {
   let url = `https://ipfs.io/ipfs/${hash}`
+  console.log('====== url')
+  console.log(url)
   return (
     <Plyr
       source={{
