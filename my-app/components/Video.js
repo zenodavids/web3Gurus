@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+import moment from 'moment'
 
 // This function is a functional component that takes in 2 props: "horizontal" and "video"
 // "horizontal" is a boolean value that determines the layout of the component
@@ -37,10 +37,12 @@ export default function Video({ horizontal, video }) {
         </h4>
         {/* This component renders the "video description" using the "video" prop */}
         <p className='text-sm flex items-center text-[#878787] mt-1'>
-          {video.description}
+          {video.description.length >= 37
+            ? `${video.description.slice(0, 37)}...`
+            : video.description}
         </p>
         <p className='text-sm flex items-center text-[#878787] mt-1'>
-          IPFS hash: {video?.hash?.slice(0, 15)}...
+          IPFS hash: {video?.hash?.slice(0, 15)} ...
         </p>
       </div>
     </div>

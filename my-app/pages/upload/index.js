@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useRouter } from 'next/router'
 import { BiCloud, BiMusic, BiPlus } from 'react-icons/bi'
 import { create } from 'ipfs-http-client'
 import saveToIPFS from '../../utils/saveToIPFS'
@@ -37,6 +38,8 @@ export default function Upload() {
   // ==============================
   // When a user clicks on the upload button
   const handleSubmit = async () => {
+    // Getting the router
+    const router = useRouter()
     // Checking if user has filled all the fields
     if (
       title === '' ||
@@ -51,7 +54,9 @@ export default function Upload() {
       return
     }
     // If user has filled all the fields, upload the thumbnail to IPFS
-    uploadThumbnail(thumbnail)
+    await uploadThumbnail(thumbnail)
+    //redirect to the home page
+    router.push('/home')
   }
 
   // Function to upload the video to IPFS
