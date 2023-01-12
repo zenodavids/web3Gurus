@@ -38,8 +38,6 @@ export default function Upload() {
   // ==============================
   // When a user clicks on the upload button
   const handleSubmit = async () => {
-    // Getting the router
-    const router = useRouter()
     // Checking if user has filled all the fields
     if (
       title === '' ||
@@ -47,16 +45,15 @@ export default function Upload() {
       category === '' ||
       location === '' ||
       thumbnail === '' ||
-      video === ''
+      video === '' ||
+      UploadedDate === Date.now()
     ) {
       // If user has not filled all the fields, throw an error
       alert('Please fill all the fields')
       return
     }
     // If user has filled all the fields, upload the thumbnail to IPFS
-    await uploadThumbnail(thumbnail)
-    //redirect to the home page
-    router.push('/home')
+    return await uploadThumbnail(thumbnail)
   }
 
   // Function to upload the video to IPFS

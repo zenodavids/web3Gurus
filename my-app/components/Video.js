@@ -42,8 +42,9 @@ export default function Video({ horizontal, video }) {
             : video.description}
         </p>
         <p className='text-sm flex items-center text-[#878787] mt-1'>
-          IPFS hash: {video?.hash?.slice(0, 15)} ...
+          Owner address: {video?.author?.slice(0, 15)} ...
         </p>
+        {console.log(video)}
       </div>
     </div>
   )

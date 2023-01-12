@@ -5,46 +5,6 @@ import { Header } from '../../components/Header'
 import { useMemo, useCallback } from 'react'
 
 export default function Main() {
-  // =====================================
-  // Creating a function to connect user's wallet
-  const connectWallet = async () => {
-    try {
-      const { ethereum } = window
-
-      // Checking if user have Metamask installed
-      if (!ethereum) {
-        // If user doesn't have Metamask installed, throw an error
-        alert('Please install MetaMask')
-        return
-      }
-
-      // If user has Metamask installed, connect to the user's wallet
-      const accounts = await ethereum.request({
-        method: 'eth_requestAccounts',
-      })
-
-      // At last save the user's wallet address in browser's local storage
-      localStorage.setItem('walletAddress', accounts[0])
-
-      // catch errors if any
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  // ==========================
-  //Call the connectWallet function and store the returned value in the variable "result"
-  const result = connectWallet()
-
-  //check if "result" is defined
-  if (result) {
-    //if defined then you can use it
-    console.log('======= results')
-    console.log(result.accounts)
-    // use the accounts variable to do something else.
-  }
-  // ==========================
-  const userAddress = result.accounts
-  // =====================================
   // Creating a state to store the uploaded video
   const [videos, setVideos] = useState([])
   const [search, setSearch] = useState('')
@@ -74,6 +34,7 @@ export default function Main() {
           title
           thumbnailHash
           description
+          author
         }
       }
     `,
@@ -96,8 +57,6 @@ export default function Main() {
             ...(search && {
               title_contains_nocase: search,
             }),
-            // ADDED FILTER TO GET ONLY THE VIDEOS UPLOADED BY THE CONNECTED ADDRESS
-            address: userAddress,
           },
         },
         fetchPolicy: 'network-only',
@@ -112,12 +71,9 @@ export default function Main() {
   }, [GET_VIDEOS, client, search])
 
   useEffect(() => {
-    // Function that retrieves the address of the connected user
-    const userAddress = result
     // Runs the function getVideos when the component is mounted and also if there is a change in the search stae
-
-    getVideos(userAddress)
-  }, [getVideos, search, userAddress])
+    getVideos()
+  }, [getVideos, search])
 
   return (
     <div className='w-full bg-[#1a1c1f] flex flex-row'>
@@ -128,21 +84,23 @@ export default function Main() {
           }}
         />
         <div className='flex flex-row flex-wrap'>
-          {userAddress &&
-            videos.map((video) => {
-              return (
-                <div
-                  key={video.id}
-                  className='w-80'
-                  onClick={() => {
-                    // Navigation to the video screen (which we will create later)
-                    window.location.href = `/video?id=${video.id}`
-                  }}
-                >
-                  <Video video={video} />
-                </div>
-              )
-            })}
+          {videos.map((video) => {
+            return (
+              <div
+                key={video.id}
+                className='w-80'
+                onClick={() => {
+                  // Navigation to the video screen (which we will create later)
+                  window.location.href = `/video?id=${video.id}`
+                }}
+              >
+                <Video video={video} />
+
+                {console.log('======== author:')}
+                {console.log(video.author)}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

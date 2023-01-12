@@ -33,6 +33,7 @@ export default function Main() {
           title
           thumbnailHash
           description
+          author
         }
       }
     `,
@@ -54,6 +55,7 @@ export default function Main() {
           where: {
             ...(search && {
               title_contains_nocase: search,
+              category_contains_nocase: search,
             }),
           },
         },
