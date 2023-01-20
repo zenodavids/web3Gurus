@@ -25,6 +25,8 @@ export default function Upload() {
   //  Creating a ref for thumbnail and video
   const thumbnailRef = useRef()
   const videoRef = useRef()
+
+  const router = useRouter()
   // ==============================
   const client = create({
     host: 'ipfs.infura.io',
@@ -45,15 +47,19 @@ export default function Upload() {
       category === '' ||
       location === '' ||
       thumbnail === '' ||
-      video === '' ||
-      UploadedDate === Date.now()
+      video === ''
     ) {
       // If user has not filled all the fields, throw an error
       alert('Please fill all the fields')
       return
     }
     // If user has filled all the fields, upload the thumbnail to IPFS
-    return await uploadThumbnail(thumbnail)
+    await uploadThumbnail(thumbnail)
+    router.push(`/home`)
+  }
+
+  const discard = async () => {
+    router.push(`/home`)
   }
 
   // Function to upload the video to IPFS
@@ -102,7 +108,12 @@ export default function Upload() {
       <div className='flex-1 flex flex-col '>
         <div className='mt-5 mr-10 flex  justify-end'>
           <div className='flex items-center'>
-            <button className='bg-transparent  text-pink-500 py-2 px-6 border rounded-lg  border-gray-600  mr-6 shadow-lg shadow-purple-500/50'>
+            <button
+              className='bg-transparent  text-pink-500 py-2 px-6 border rounded-lg  border-gray-600  mr-6 shadow-lg shadow-purple-500/50'
+              onClick={() => {
+                discard()
+              }}
+            >
               Discard
             </button>
             <button
@@ -116,6 +127,7 @@ export default function Upload() {
             </button>
           </div>
         </div>
+
         <div className='flex flex-col m-10     mt-5  lg:flex-row'>
           <div className='flex lg:w-3/4 flex-col '>
             <label className='text-[#F7F7F7]  text-sm'>Title</label>
@@ -151,11 +163,11 @@ export default function Upload() {
                   onChange={(e) => setCategory(e.target.value)}
                   className='w-[90%] text-white placeholder:text-gray-600  rounded-md mt-2 h-12 p-2 border  bg-[#1a1c1f] border-purple-500 focus:outline-none'
                 >
-                  <option>Web Development</option>
+                  <option>Please Select a Category</option>
                   <option>Social Media Marketing/Management</option>
                   <option>Copywriting</option>
                   <option>Project Management</option>
-                  <option>Content Creation</option>
+                  <option>Web Development</option>
                   <option>Education</option>
                   <option>Science & Technology</option>
                   <option>SEO</option>

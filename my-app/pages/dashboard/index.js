@@ -3,7 +3,6 @@ import { useApolloClient, gql } from '@apollo/client'
 import Video from '../../components/Video'
 import { Header } from '../../components/Header'
 import { useMemo, useCallback } from 'react'
-
 export default function Main() {
   // Creating a state to store the uploaded video
   const [videos, setVideos] = useState([])
@@ -56,6 +55,7 @@ export default function Main() {
           where: {
             ...(search && {
               title_contains_nocase: search,
+              category_contains_nocase: search,
             }),
           },
         },
@@ -95,9 +95,6 @@ export default function Main() {
                 }}
               >
                 <Video video={video} />
-
-                {console.log('======== author:')}
-                {console.log(video.author)}
               </div>
             )
           })}
