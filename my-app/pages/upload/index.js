@@ -55,7 +55,7 @@ export default function Upload() {
     }
     // If user has filled all the fields, upload the thumbnail to IPFS
     await uploadThumbnail(thumbnail)
-    router.push(`/home`)
+    // router.push(`/home`)
   }
 
   const discard = async () => {
@@ -114,7 +114,7 @@ export default function Upload() {
                 discard()
               }}
             >
-              Discard
+              Discard / Back to Home
             </button>
             <button
               onClick={() => {
