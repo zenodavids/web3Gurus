@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MoloContract
+    network: mumbai
+    source:
+      address: "0x4F209047Aa3644693D4CB8A2123D06CA2Dd7642d"
+      abi: MoloContract
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DeletedVideo
+        - UploadedVideo
+      abis:
+        - name: MoloContract
+          file: MoloContract\abis\MoloContract.json
+      eventHandlers:
+        - event: DeletedVideo(uint256)
+          handler: handleDeletedVideo
+        - event: UploadedVideo(uint256,string,string,string,string,string,string,string,address)
+          handler: handleUploadedVideo
+      file: MoloContract\MoloContract.wasm
